@@ -1,0 +1,149 @@
+@import url("https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=DynaPuff:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Luckiest+Guy&family=Modak&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:ital,wght@0,200..800;1,200..800&display=swap");
+@import "tailwindcss";
+:root {
+  --glow-cyan: 0 0 8px rgba(0, 229, 255, 0.2), 0 0 16px rgba(0, 229, 255, 0.2);
+  --glow-magenta:
+    0 0 8px rgba(255, 51, 238, 0.2), 0 0 16px rgba(255, 51, 238, 0.2);
+}
+
+@theme {
+  --breakpoint-2xs: 20rem;
+  --breakpoint-xs: 30rem;
+
+  --font-lucky: "Luckiest Guy", cursive;
+  --font-inter: "Inter", sans-serif;
+  --font-dyna: "DynaPuff", system-ui;
+  --font-cherry: "Cherry Bomb One", system-ui;
+  --font-modak: "Modak", system-ui;
+  --font-atkinson: "Atkinson Hyperlegible Mono", sans-serif;
+
+  --color-accent-cyan: #00e5ff;
+  --color-accent-magenta: #ff33ee;
+  --color-bg-main: #1a1d2e;
+
+  --shadow-card:
+    inset 0px 1.8px 0px 0.2px oklch(86.5% 0.127 207.078),
+    0px 2.2px 0.5px 0.1px oklch(86.5% 0.127 207.078);
+  --shadow-cyan: 0 0 10px 1px oklch(60.9% 0.126 221.723);
+  --shadow-avatar: 0 0 7px 5px #ff33ee;
+  --animate-typing: typing 1s steps(1) infinite;
+
+  @keyframes typing {
+    0%,
+    50% {
+      opacity: 1;
+    }
+    51%,
+    100% {
+      opacity: 0;
+    }
+  }
+}
+
+@layer components {
+  .logo {
+    font-family: "Luckiest Guy", cursive;
+    font-size: 2rem;
+    background: linear-gradient(
+      45deg,
+      var(--color-cyan-500),
+      var(--color-fuchsia-800)
+    );
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: var(--glow-cyan);
+  }
+
+  .btn-start {
+    padding: 0.8rem 2.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--color-white);
+    background: var(--color-accent-magenta);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: var(--glow-magenta);
+    transition: background 0.2s;
+  }
+
+  .btn-start:hover {
+    background: #d800d8;
+  }
+
+  .card-main {
+    box-shadow: var(--shadow-card);
+    border-radius: var(--radius-2xl);
+    border-style: var(--tw-border-style);
+    border-width: 8px;
+    border-color: var(--color-slate-700);
+    padding: 40px;
+  }
+
+  .mode-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transition:
+      transform 0.3s,
+      box-shadow 0.3s;
+  }
+  .mode-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.7),
+      var(--glow-cyan);
+  }
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+  color: white;
+  background: #1a1d2e;
+  overflow-x: hidden;
+  --sb-track-color: #232e33;
+  --sb-thumb-color: #374840;
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--color-slate-700);
+  border-radius: 1px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--color-slate-950);
+  border-radius: 1px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  body {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+  }
+}
+
+/* body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("./assets/doodle.svg");
+  background-repeat: repeat;
+  background-size: 600px 600px;
+  pointer-events: none;
+  animation: drift 40s linear infinite;
+}
+@keyframes drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 500px 500px;
+  }
+} */

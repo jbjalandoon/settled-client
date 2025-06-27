@@ -1,0 +1,76 @@
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { io } from "socket.io-client";
+import type { Socket as SocketType } from "socket.io-client";
+import { socketContext } from "../hooks/useSocket";
+
+export default function Socket({ children }: { children: ReactNode }) {
+  const [socket] = useState<SocketType>(
+    io("http://localhost:3000/game", {
+      autoConnect: true,
+      withCredentials: true,
+      timeout: 2000,
+      transports: ["polling", "websocket"],
+      reconnection: true,
+    }),
+  );
+  //   const [connected, setConnected] = useState(false);
+
+  useEffect(() => {
+    function handleConnect() {
+      //   setConnected(true);
+      //   console.log("Socket is connected");
+    }
+
+    function handleDisconnect() {
+      //   setConnected(false);
+      //   console.log("Socket is disconnected");
+    }
+
+    socket.on("connect", handleConnect);
+    socket.on("disconnect", handleDisconnect);
+    socket.connect();
+    return () => {
+      socket.off("connect", handleConnect);
+      socket.off("disconnect", handleDisconnect);
+      socket.disconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const resetConnection = useCallback(() => {
+    if (!socket) return;
+    if (socket.connected) {
+      socket.disconnect();
+    }
+    socket.connect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const contextValue = useMemo(
+    () => ({
+      socket: socket,
+      resetSocket: resetConnection,
+    }),
+    [resetConnection, socket],
+  );
+  //   if (!socket.connected) {
+  //     return (
+  //       <div
+  //         style={{
+  //           display: "flex",
+  //           height: "100vh",
+  //           justifyContent: "center",
+  //           alignItems: "center",
+  //           fontSize: "1.2rem",
+  //         }}
+  //       >
+  //         Connecting to server…
+  //       </div>
+  //     );
+  //   }
+  return (
+    <socketContext.Provider value={contextValue}>
+      {children}
+    </socketContext.Provider>
+  );
+}
