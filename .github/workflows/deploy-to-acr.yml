@@ -17,7 +17,15 @@ jobs:
           login-server: ${{ secrets.ACR_SERVER }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
-          
+
+
+      - name: Inspect workspace
+        run: |
+          echo "Working dir: $(pwd)"
+          ls -la .
+          echo "----- cat Dockerfile.prod -----"
+          cat Dockerfile.prod
+    
       - name: Build the container
         run: |
             docker build -f Dockerfile.prod \
