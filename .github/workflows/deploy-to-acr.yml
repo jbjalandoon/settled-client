@@ -10,17 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Build the application
-      - uses: azure/docker-login@v2
+      - uses: actions/checkout@v3
+      - name: Login to azure
+        uses: azure/docker-login@v2
         with:
-          login-server: contoso.azurecr.io
-          username: ${{ secrets.REGISTRY_USERNAME }}
-     
-      - run: |
-            docker build . \
-            -t ${{secrets.ACR_SERVER}}/.settled-client:${{ github.sha }} \
-            -t ${{secrets.ACR_SERVER}}/.settled-client:latest \
-            Dockerfile.prod
+          login-server: ${{ secrets.ACR_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWRD }}
+          
+      - name: Build the container
+        run: |
+            docker build -f Dockerfile.prod \
+            -t ${{secrets.ACR_SERVER}}/settled-client:${{ github.sha }} \
+            -t ${{secrets.ACR_SERVER}}/settled-client:latest \
+            .
+            
 
   deploy:
     runs-on: ubuntu-latest
@@ -29,5 +33,5 @@ jobs:
     steps:
       - name: Deploy to Azure Container Registry
         run: |
-            docker push ${{secrets.ACR_SERVER}}/.settled-client:${{ github.sha }}
-            docker push ${{secrets.ACR_SERVER}}/.settled-client:latest
+            docker push ${{secrets.ACR_SERVER}}/settled-client:${{ github.sha }}
+            docker push ${{secrets.ACR_SERVER}}/settled-client:latest
