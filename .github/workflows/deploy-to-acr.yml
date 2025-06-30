@@ -1,27 +1,21 @@
-name: Build and deploy a container to an Azure Web App
-
-env:
-  AZURE_WEBAPP_NAME: your-app-name  # set this to the name of your Azure Web App
+name: Build and deploy a container to an Azure Container Registry
 
 on:
   push:
     branches: [ "master" ]
   workflow_dispatch:
 
-permissions:
-  contents: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Build the application
       - uses: azure/docker-login@v2
         with:
           login-server: contoso.azurecr.io
           username: ${{ secrets.REGISTRY_USERNAME }}
-
-      - name: Build the application
+     
       - run: |
             docker build . \
             -t ${{secrets.ACR_SERVER}}/.settled-client:${{ github.sha }} \
