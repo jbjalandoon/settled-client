@@ -1,9 +1,8 @@
-import axios, { AxiosResponse } from 'axios'
+import { AxiosResponse } from "axios";
+import api from "../helper/axios";
 
 export async function getGuestToken(): Promise<AxiosResponse> {
-  const data = await axios.get('http://localhost:3000/auth/guest', {
-    withCredentials: true,
-  })
+  const data = await api.get("auth/guest");
 
-  return data
+  return data;
 }
