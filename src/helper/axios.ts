@@ -4,10 +4,9 @@ import { Bounce, toast } from "react-toastify";
 // TODO: change url to env
 
 const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
-console.log(apiUrl);
 
 const api = axios.create({
-  baseURL: apiUrl + "/",
+  baseURL: apiUrl,
   withCredentials: true,
 });
 
