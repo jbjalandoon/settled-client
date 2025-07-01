@@ -28,7 +28,7 @@ jobs:
       - name: Build the container
         run: |
           docker build --file Dockerfile.prod \
-          --build-arg VITE_API_URL=https://settledapi.jeromejalandoon.online/ \
+          --build-arg VITE_API_URL=https://settledapi.jeromejalandoon.onlinee/ \
           -t ${{secrets.ACR_SERVER}}/settled-client:${{ github.sha }} \
           -t ${{secrets.ACR_SERVER}}/settled-client:latest \
           .
