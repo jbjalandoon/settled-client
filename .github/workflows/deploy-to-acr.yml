@@ -2,13 +2,13 @@ name: Build and deploy a container to an Azure Container Registry
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
   workflow_dispatch:
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v3
       - name: Login to azure
@@ -18,23 +18,22 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
 
-
       - name: Inspect workspace
         run: |
           echo "Working dir: $(pwd)"
           ls -la .
           echo "----- cat Dockerfile.prod -----"
           cat Dockerfile.prod
-    
+
       - name: Build the container
         run: |
-            docker build --file Dockerfile.prod \
-            -t ${{secrets.ACR_SERVER}}/settled-client:${{ github.sha }} \
-            -t ${{secrets.ACR_SERVER}}/settled-client:latest \
-            .
-            
+          docker build --file Dockerfile.prod \
+          --build-arg VITE_API_URL=settledapi.jeromejalandoon.online \
+          -t ${{secrets.ACR_SERVER}}/settled-client:${{ github.sha }} \
+          -t ${{secrets.ACR_SERVER}}/settled-client:latest \
+          .
+
       - name: Deploy to Azure Container Registry
         run: |
-            docker push ${{secrets.ACR_SERVER}}/settled-client:${{ github.sha }}
-            docker push ${{secrets.ACR_SERVER}}/settled-client:latest
-      
+          docker push ${{secrets.ACR_SERVER}}/settled-client:${{ github.sha }}
+          docker push ${{secrets.ACR_SERVER}}/settled-client:latest

@@ -8,7 +8,13 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
+ARG VITE_API_URL
+
+RUN printf "VITE_API_URL=%s\n" \
+      "${VITE_API_URL}" \
+      > .env.production
+
+RUN npm run build --mode production
 
 FROM nginx:alpine
 

@@ -4,8 +4,10 @@ import type { Socket as SocketType } from "socket.io-client";
 import { socketContext } from "../hooks/useSocket";
 
 export default function Socket({ children }: { children: ReactNode }) {
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
   const [socket] = useState<SocketType>(
-    io("http://localhost:3000/game", {
+    io(apiUrl + "/game", {
       autoConnect: true,
       withCredentials: true,
       timeout: 2000,
@@ -53,21 +55,6 @@ export default function Socket({ children }: { children: ReactNode }) {
     }),
     [resetConnection, socket],
   );
-  //   if (!socket.connected) {
-  //     return (
-  //       <div
-  //         style={{
-  //           display: "flex",
-  //           height: "100vh",
-  //           justifyContent: "center",
-  //           alignItems: "center",
-  //           fontSize: "1.2rem",
-  //         }}
-  //       >
-  //         Connecting to server…
-  //       </div>
-  //     );
-  //   }
   return (
     <socketContext.Provider value={contextValue}>
       {children}
