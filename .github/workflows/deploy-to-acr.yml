@@ -44,6 +44,4 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Azure Web App Restart
-        run: az webapp restart \
-          --resource-group settled-client_group \
-          --name settled-client
+        run: az webapp restart --resource-group settled-client_group --name settled-client
