@@ -1,12 +1,6 @@
 import { useParams } from "@tanstack/react-router";
 import { setName } from "../../api/room";
-import {
-  ChangeEvent,
-  FormEventHandler,
-  MouseEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, FormEventHandler, useEffect, useState } from "react";
 import { useAppDispatch } from "../../app/hooks";
 import { changedName } from "../../features/room/roomSlice";
 import { useSocket } from "../../hooks/useSocket";
