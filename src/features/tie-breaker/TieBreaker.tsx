@@ -51,9 +51,7 @@ export function TieBreaker() {
       chosen: TieBreakerChoices | null,
     ) {
       dispatch(toggleLockIn({ id: userId, chosen }));
-      if (userId === id) {
-        setActiveChoice(chosen || "rock");
-      }
+      console.log("listened");
     }
 
     function handleAddPoints(
@@ -100,6 +98,8 @@ export function TieBreaker() {
   }, []);
 
   function handleLockIn() {
+    dispatch(toggleLockIn({ id, chosen: activeChoice }));
+    console.log("button clicked");
     socket.emit("tie-breaker-lock-in", activeChoice);
   }
 
@@ -162,7 +162,7 @@ export function TieBreaker() {
           {!stats[id].lockedIn ? "Lock in" : "Cancel"}
         </button>
       </div>
-      <span className="font-atkinson border text-center text-xl font-bold uppercase">
+      <span className="font-atkinson text-center text-xl font-bold uppercase">
         {!reveal ? (
           <>
             <BeatLoader className="h-[1em]" color="#ffffff" />

@@ -8,10 +8,11 @@ import {
   typingEntryAdded,
   typingFinished,
   TypingGameStats,
-  typingUpdateWPM,
+  typingUpdateData,
 } from "./typingSlice";
 import Winner from "../../components/global/Winner";
 import { playerWon } from "../room/roomSlice";
+import TypingCountdown from "./TypingCountdown";
 
 export default function Typing() {
   const { socket } = useSocket();
@@ -20,13 +21,11 @@ export default function Typing() {
 
   const players = useAppSelector((state) => state.typing!.stats);
   const winner = useAppSelector((state) => state.typing!.details.winner);
-  const { startTime } = useAppSelector((state) => state.typing!.details);
   const playerDetail = useAppSelector((state) => state.room!.players);
 
   const { entry, right, current } = players[id];
 
   const [error, setError] = useState<number | null>(null);
-  const [timeElapsed, setTimeElapsed] = useState<string>("00:00");
   const [input, setInput] = useState<string>("");
 
   const [typingDisabled, setTypingDisabled] = useState(false);
@@ -34,35 +33,12 @@ export default function Typing() {
   const inputElement = useRef<HTMLInputElement | null>(null);
   const countdownInterval = useRef<NodeJS.Timeout | undefined>(undefined);
 
-  const interval = useRef<NodeJS.Timeout | undefined>(undefined);
-  const timeElapsedInterval = useRef<NodeJS.Timeout | undefined>(undefined);
+  useEffect(() => {
+    socket.emit("typing-update-data", entry, right, current);
+  }, [current, entry, right, socket]);
 
   useEffect(() => {
     inputElement.current!.focus();
-
-    interval.current = setInterval(() => {
-      socket.emit("typing-update-wpm");
-    }, 3000);
-
-    timeElapsedInterval.current = setInterval(() => {
-      const minute = (Date.now() - startTime!) / 1000 / 60;
-      const second = ((Date.now() - startTime!) / 1000) % 60;
-      setTimeElapsed(
-        `${minute.toFixed(0).padStart(2, "0")} : ${second.toFixed(0).padStart(2, "0")}`,
-      );
-    }, 1000);
-
-    function handleUpdateEntry(player: string, gameStats: TypingGameStats) {
-      if (id === player) {
-        setInput("");
-        setError(null);
-      }
-      dispatch(typingEntryAdded({ player, gameStats }));
-    }
-
-    function handleUpdateWPM(playersWPM: { wpm: number; player: string }[]) {
-      dispatch(typingUpdateWPM(playersWPM));
-    }
 
     function handleTypingFinished(
       id: string,
@@ -70,36 +46,34 @@ export default function Typing() {
       timeFinished: number,
     ) {
       setTypingDisabled(true);
-      socket.off("typing-update-wpm", handleUpdateWPM);
       dispatch(typingFinished({ id, newScore, timeFinished }));
       dispatch(playerWon(id));
     }
 
     function handleTypingAllFinished() {
       clearInterval(countdownInterval.current!);
-      clearInterval(interval.current!);
+    }
+
+    function handleUpdateData(player: string, gameStats: TypingGameStats) {
+      dispatch(typingUpdateData({ player, gameStats }));
     }
 
     socket.on("typing-finished", handleTypingFinished);
-    socket.on("typing-update-entry", handleUpdateEntry);
-    socket.on("typing-update-wpm", handleUpdateWPM);
     socket.on("typing-all-finished", handleTypingAllFinished);
+    socket.on("typing-update-data", handleUpdateData);
     return () => {
       socket.off("typing-all-finished", handleTypingAllFinished);
       socket.off("typing-finished", handleTypingFinished);
-      socket.off("update-entry", handleUpdateEntry);
-      socket.off("typing-update-wpm", handleUpdateWPM);
-      clearInterval(interval.current!);
+      socket.off("typing-update-data", handleUpdateData);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch, socket]);
 
   function replaceCurlyQuote(text: string) {
     if (!text) return text;
     return text.replace("“", '"').replace("”", '"');
   }
 
-  const handleInputChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleInputChange: ChangeEventHandler<HTMLInputElement> = async (e) => {
     const value = e.target.value;
     setInput(value);
 
@@ -111,8 +85,9 @@ export default function Typing() {
     }
 
     if (last === " " && value.slice(0, -1) === replaceCurlyQuote(current)) {
-      setInput((val) => val.slice(0, -1));
-      socket.emit("typing-update-entry", value);
+      dispatch(typingEntryAdded({ player: id, word: value }));
+      setInput("");
+      setError(null);
       if (right.length === 0) {
         socket.emit("typing-finished", Date.now());
       }
@@ -145,7 +120,7 @@ export default function Typing() {
           winner={winner}
         ></Winner>
       )}
-      <span className="self-end">{timeElapsed}</span>
+      <TypingCountdown />
       <div className="h-fit w-full rounded-xl bg-slate-700 p-2">
         <div className="font-atkinson h-full max-h-[6em] min-h-[6em] w-full overflow-hidden rounded-xl px-2 leading-[1.2em] sm:max-h-full">
           <div className="text-left">
@@ -190,37 +165,38 @@ export default function Typing() {
                   )}
                 </>
               )}
-              {input.length < current.length && (
+              {current && input.length < current.length && (
                 <Quote
                   content={(current + " " + right.join(" "))[input.length]}
                   type={"current"}
                 />
               )}
-              {input.length === current.length && (
+              {current && input.length === current.length && (
                 <Quote content={" "} type={"current-space"} />
               )}
-              {current.slice(input.length + 1) && (
+              {current && current.slice(input.length + 1) && (
                 <Quote
                   content={current.slice(input.length + 1)}
                   type={"post-current"}
                 />
               )}
             </span>
-            {input.length > current.length && (
+            {current && input.length > current.length && (
               <Quote
                 content={(current + " " + right.join(" "))[input.length]}
                 type={"current-error"}
               />
             )}
             <span>
-              {current.length > input.length && " "}
-              {right
-                .join(" ")
-                .slice(
-                  input.length > current.length
-                    ? input.length - current.length
-                    : 0,
-                )}
+              {current && current.length > input.length && " "}
+              {current &&
+                right
+                  .join(" ")
+                  .slice(
+                    input.length > current.length
+                      ? input.length - current.length
+                      : 0,
+                  )}
             </span>
           </div>
         </div>{" "}
@@ -268,9 +244,9 @@ export default function Typing() {
                     </div>
                   </div>
                 </div>
-                <span className="hidden w-fit whitespace-nowrap sm:inline">
+                {/* <span className="hidden w-fit whitespace-nowrap sm:inline">
                   {stats.wpm.toFixed(0)} WPM
-                </span>
+                </span> */}
               </div>
             );
           })}

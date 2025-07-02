@@ -11,17 +11,10 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as AboutImport } from './routes/about'
 import { Route as RoomImport } from './routes/$room'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
-
-const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const RoomRoute = RoomImport.update({
   id: '/$room',
@@ -53,13 +46,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoomImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
-      parentRoute: typeof rootRoute
-    }
   }
 }
 
@@ -68,41 +54,36 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$room': typeof RoomRoute
-  '/about': typeof AboutRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$room': typeof RoomRoute
-  '/about': typeof AboutRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/$room': typeof RoomRoute
-  '/about': typeof AboutRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$room' | '/about'
+  fullPaths: '/' | '/$room'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$room' | '/about'
-  id: '__root__' | '/' | '/$room' | '/about'
+  to: '/' | '/$room'
+  id: '__root__' | '/' | '/$room'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   RoomRoute: typeof RoomRoute
-  AboutRoute: typeof AboutRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   RoomRoute: RoomRoute,
-  AboutRoute: AboutRoute,
 }
 
 export const routeTree = rootRoute
@@ -116,8 +97,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/$room",
-        "/about"
+        "/$room"
       ]
     },
     "/": {
@@ -125,9 +105,6 @@ export const routeTree = rootRoute
     },
     "/$room": {
       "filePath": "$room.tsx"
-    },
-    "/about": {
-      "filePath": "about.tsx"
     }
   }
 }

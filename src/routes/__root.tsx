@@ -13,13 +13,13 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <>
+    <div className="wrapper">
       <Navbar />
       <ToastContainer />
       <div className="container mx-auto flex h-screen items-center justify-center">
         <Outlet />
       </div>
       <TanStackRouterDevtools />
-    </>
+    </div>
   );
 }

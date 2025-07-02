@@ -37,3 +37,18 @@ jobs:
         run: |
           docker push ${{secrets.ACR_SERVER}}/settled-client:${{ github.sha }}
           docker push ${{secrets.ACR_SERVER}}/settled-client:latest
+
+  restart-client:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION }}
+
+      - name: Azure Web App Restart
+        run: az webapp restart \
+          --resource-group settled-client_group \
+          --name settled-client

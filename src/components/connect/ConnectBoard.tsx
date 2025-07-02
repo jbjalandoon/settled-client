@@ -13,14 +13,15 @@ import { getSessionID } from "../../helper/cookies";
 
 export default function ConnectBoard() {
   const { socket } = useSocket();
-  const [hoveredCell, setHoveredCell] = useState<number[] | null>(null);
-
-  const grid = useAppSelector((state) => state.connect!.details.grid);
-  const [connected, setConnected] = useState<Array<Array<number>>>([]);
   const id = getSessionID();
+  const [hoveredCell, setHoveredCell] = useState<number[] | null>(null);
   const currentPlayer = useAppSelector(
     (state) => state.connect!.details.currentPlayer,
   );
+  const [disabled, setDisabled] = useState(currentPlayer !== id);
+
+  const grid = useAppSelector((state) => state.connect!.details.grid);
+  const [connected, setConnected] = useState<Array<Array<number>>>([]);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -31,6 +32,7 @@ export default function ConnectBoard() {
       next: string,
     ) {
       dispatch(tokenDropped({ row, col, player, next }));
+      setDisabled(next !== id);
     }
 
     function handleConnectWinner(
@@ -81,7 +83,8 @@ export default function ConnectBoard() {
                   : val
               }
               setHoveredCell={setHoveredCell}
-              disabled={id !== currentPlayer}
+              setDisabled={setDisabled}
+              disabled={disabled}
               winningTile={connected.some(
                 (val) => val[0] === row && val[1] === col,
               )}

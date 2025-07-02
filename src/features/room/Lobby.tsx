@@ -5,13 +5,16 @@ import Avatar from "../../components/lobby/Avatar";
 import LobbyButton from "../../components/lobby/LobbyButton";
 import vs from "../../assets/img/vs.png";
 import GameLists from "../../components/gamelist/GameLists";
+import { useState } from "react";
+import ChangeName from "../../components/lobby/ChangeName";
 export default function Lobby() {
   const navigate = useNavigate({ from: "/$room" });
   const players = useAppSelector((state) => state.room!.players);
   const host = useAppSelector((state) => state.room!.host);
   const playerKeys = Object.keys(players);
   const id = getSessionID();
-  // const currentPlayerIndex = playerKeys.findIndex((val) => val === id);
+  const isJoined = useAppSelector((state) => state.room!.joined);
+  const [inputName, setInputName] = useState("");
   if (playerKeys.length === 0) {
     navigate({ to: "/" });
   }
@@ -86,6 +89,7 @@ export default function Lobby() {
             ))}
           {/* TODO: Create an image for this VS */}
         </div>
+        {isJoined && <ChangeName isJoined={isJoined} />}
         <GameLists clickable={host === id} />
         <LobbyButton />
       </div>

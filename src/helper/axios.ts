@@ -48,13 +48,15 @@ api.interceptors.response.use(
     // Show a toast notification
     toast.error(message, {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 1000,
+      className: "text-center font-sm",
       hideProgressBar: false,
       closeOnClick: false,
+      toastId: "request-error",
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "light",
+      theme: "dark",
       transition: Bounce,
     });
 

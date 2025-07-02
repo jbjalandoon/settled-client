@@ -31,7 +31,6 @@ export const Route = createFileRoute("/$room")({
   loader: async ({ params }): Promise<LoaderData | null> => {
     try {
       const { data } = await getRoom(params.room);
-      console.log(data);
       return data;
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_err) {

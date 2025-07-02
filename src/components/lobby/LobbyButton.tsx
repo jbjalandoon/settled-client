@@ -88,7 +88,6 @@ export default function LobbyButton() {
     }
 
     function handleRoomStarting() {
-      console.log("test");
       setIsSubmitting(true);
     }
 

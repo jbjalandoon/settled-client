@@ -54,6 +54,15 @@ export const typingSlice = createSlice({
     },
     typingEntryAdded: (
       state,
+      action: PayloadAction<{ player: string; word: string }>,
+    ) => {
+      state!.stats[action.payload.player].entry.push(action.payload.word);
+      const next = state!.stats[action.payload.player].right.shift();
+      state!.stats[action.payload.player].current = next as string;
+      return state;
+    },
+    typingUpdateData: (
+      state,
       action: PayloadAction<{ player: string; gameStats: TypingGameStats }>,
     ) => {
       state!.stats[action.payload.player] = action.payload.gameStats;
@@ -94,6 +103,7 @@ export const {
   startTypingGame,
   typingReset,
   typingEntryAdded,
+  typingUpdateData,
   typingFinished,
   typingUpdateWPM,
 } = typingSlice.actions;

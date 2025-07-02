@@ -32,8 +32,7 @@ export default function GameListItem({
     return () => {
       socket.off("toggle-game", toggleGame);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [socket]);
 
   function handleSelectGame() {
     socket.emit("toggle-game", title);
@@ -59,13 +58,13 @@ export default function GameListItem({
           stroke="#000000"
           strokeWidth="0.0028123200000000005"
         >
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
           <g
             id="SVGRepo_tracerCarrier"
             strokeLinecap="round"
             strokeLinejoin="round"
             stroke="#CCCCCC"
-            stroke-width="11.811744000000001"
+            strokeWidth="11.811744000000001"
           >
             {" "}
             <g>

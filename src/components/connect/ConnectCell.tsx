@@ -1,9 +1,10 @@
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import Avatar from "../lobby/Avatar";
 import { FaLongArrowAltDown } from "react-icons/fa";
 import { useSocket } from "../../hooks/useSocket";
 import { getSessionID } from "../../helper/cookies";
 import { Dispatch, SetStateAction } from "react";
+import { tokenDropped } from "../../features/connect/connectSlice";
 
 export default function ConnectCell({
   col,
@@ -12,6 +13,7 @@ export default function ConnectCell({
   disabled,
   winningTile,
   setHoveredCell,
+  setDisabled,
 }: {
   col: number;
   row: number;
@@ -19,16 +21,30 @@ export default function ConnectCell({
   disabled: boolean;
   winningTile: boolean;
   setHoveredCell: Dispatch<SetStateAction<null | number[]>>;
+  setDisabled: Dispatch<SetStateAction<boolean>>;
 }) {
   const { socket } = useSocket();
   const grid = useAppSelector((state) => state.connect!.details.grid);
+  const players = useAppSelector((state) => state.room!.players);
+  const dispatch = useAppDispatch();
   const id = getSessionID();
 
   function handleClick() {
     if (disabled) return;
+    setDisabled(true);
     for (let r = 5; r >= 0; r--) {
       if (!grid[r][col]) {
         socket.emit("connect-drop", r, col);
+        const keys = Object.keys(players);
+        const next = keys.filter((el) => el !== id)[0];
+        dispatch(
+          tokenDropped({
+            row: r,
+            col,
+            player: id,
+            next,
+          }),
+        );
         break;
       }
     }

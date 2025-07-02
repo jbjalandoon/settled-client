@@ -28,7 +28,11 @@ export default function Menu() {
     case "join":
       render = <Join />;
       break;
+    case "about":
+      render = <About />;
+      break;
     case "credits":
+      render = <Credits />;
       break;
   }
 
@@ -36,6 +40,45 @@ export default function Menu() {
     <div className="flex w-full flex-col items-center gap-1 self-start">
       <MenuList menu={menu} setMenu={setMenu} />
       {render}
+    </div>
+  );
+}
+
+function Credits() {
+  return (
+    <div className="flex w-full flex-col items-center gap-7">
+      <ul className="flex flex-col gap-3 text-center">
+        <li>
+          <p className="font-inter text-lg">
+            “Adventurer Neutral” by{" "}
+            <a
+              href="https://www.instagram.com/lischi_art/"
+              className="text-blue-800 underline"
+            >
+              Lisa Wischofsky
+            </a>{" "}
+            used as avatar, license under{" "}
+            <a
+              href="https://creativecommons.org/licenses/by/4.0/"
+              rel="license"
+              className="text-blue-800 underline"
+            >
+              CC BY 4.0
+            </a>
+          </p>
+        </li>
+      </ul>
+    </div>
+  );
+}
+
+function About() {
+  return (
+    <div className="flex w-full flex-col items-center gap-7">
+      <p className="font-inter track-wide w-full rounded-xl px-2 py-3 text-center text-xl sm:w-1/2">
+        Hi! I'm Jerome, This is where I compile a simple 1 vs 1 game to play
+        with your friend.
+      </p>
     </div>
   );
 }

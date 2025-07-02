@@ -42,60 +42,10 @@
 }
 
 @layer components {
-  .logo {
-    font-family: "Luckiest Guy", cursive;
-    font-size: 2rem;
-    background: linear-gradient(
-      45deg,
-      var(--color-cyan-500),
-      var(--color-fuchsia-800)
-    );
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: var(--glow-cyan);
-  }
-
-  .btn-start {
-    padding: 0.8rem 2.5rem;
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--color-white);
-    background: var(--color-accent-magenta);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    box-shadow: var(--glow-magenta);
-    transition: background 0.2s;
-  }
-
-  .btn-start:hover {
-    background: #d800d8;
-  }
-
-  .card-main {
-    box-shadow: var(--shadow-card);
-    border-radius: var(--radius-2xl);
-    border-style: var(--tw-border-style);
-    border-width: 8px;
-    border-color: var(--color-slate-700);
-    padding: 40px;
-  }
-
-  .mode-card {
-    background: var(--card-bg);
-    border-radius: 12px;
-    padding: 1.5rem;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    transition:
-      transform 0.3s,
-      box-shadow 0.3s;
-  }
-  .mode-card:hover {
-    transform: translateY(-6px);
-    box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.7),
-      var(--glow-cyan);
+  .wrapper {
+    background-image: url(./assets//img/bg/inspiration-geometry.png);
+    height: "100%";
+    width: "100%";
   }
 }
 

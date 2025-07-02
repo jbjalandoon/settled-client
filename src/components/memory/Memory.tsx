@@ -46,7 +46,7 @@ export default function Chimp() {
       }
     }
 
-    setTimeRemaining(startTime! + 300000 - Date.now());
+    setTimeRemaining(startTime! + 5000 - Date.now());
     const interval = setInterval(() => {
       setTimeRemaining((prev) => prev - 1000);
     }, 1000);
