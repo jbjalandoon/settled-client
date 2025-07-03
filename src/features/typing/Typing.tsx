@@ -240,7 +240,9 @@ export default function Typing() {
                         readyIcon={false}
                         ready={false}
                       />
-                      <span className="w-[8ch]">{playerDetail[el].name}</span>
+                      <span className="w-[8ch] text-center whitespace-nowrap">
+                        {playerDetail[el].name}
+                      </span>
                     </div>
                   </div>
                 </div>

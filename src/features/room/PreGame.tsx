@@ -62,10 +62,12 @@ export default function PreGame() {
   useEffect(() => {
     const handleCountdown = (start: number) => {
       setCountingDown(true);
-      setSeconds(Math.ceil((start - Date.now()) / 1000));
+      setSeconds(Math.floor((start - Date.now()) / 1000));
       const interval = setInterval(() => {
-        setSeconds(Math.ceil((start - Date.now()) / 1000));
+        setSeconds(Math.floor((start - Date.now()) / 1000));
       }, 1000);
+
+      console.log(start - Date.now());
 
       setTimeout(() => {
         clearInterval(interval);
@@ -126,7 +128,7 @@ export default function PreGame() {
         {GAME_DESCRIPTION[game].title}
       </Logo>
       <div className="mt-4 flex flex-col items-center gap-2 px-2 text-center sm:max-w-3/4 md:max-w-1/2">
-        <p className="w-full text-center text-base text-slate-300 sm:text-lg">
+        <p className="w-full text-center text-base text-slate-200 sm:text-xl">
           {GAME_DESCRIPTION[game].description}
         </p>
       </div>

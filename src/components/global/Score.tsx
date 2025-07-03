@@ -43,7 +43,7 @@ export default function Score({
           </h1>
         )}
       </div>
-      <img src={vs} className="h-7" />
+      <img src={vs} className="h-7 w-7" alt="VS" />
       {playerKeys
         .filter((el) => el !== id)
         .map((key) => (

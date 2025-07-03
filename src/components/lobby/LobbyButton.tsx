@@ -116,7 +116,6 @@ export default function LobbyButton() {
       if (isAxiosError(error)) {
         switch (error.response!.status) {
           case 400: {
-            alert("Lobby is full");
             break;
           }
           default: {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "../../app/hooks";
 
 export default function TypingCountdown() {
-  const [timeElapsed, setTimeElapsed] = useState<string>("00:00");
+  const [timeElapsed, setTimeElapsed] = useState<string>("00 : 00");
   const { startTime } = useAppSelector((state) => state.typing!.details);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { useLoaderData, useParams } from "@tanstack/react-router";
+import { useLoaderData, useNavigate, useParams } from "@tanstack/react-router";
 import { useAppDispatch } from "../../app/hooks";
 import type { Room } from "./roomSlice";
 import {
@@ -24,15 +24,16 @@ export default function Room() {
   const loader = useLoaderData({ from: "/$room" });
   const { room } = useParams({ from: "/$room" });
   const { socket, resetSocket } = useSocket();
+  const navigate = useNavigate({ from: "/$room" });
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     socket.emit("join-room", room);
+    resetSocket();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [room]);
 
   useEffect(() => {
-    resetSocket();
     function handleNextPhase(phase: number) {
       dispatch(nextPhaseUpdated(phase));
     }
@@ -68,9 +69,15 @@ export default function Room() {
 
   if (loader === null) {
     return (
-      <>
-        <p>Room not found</p>
-      </>
+      <div className="flex flex-col gap-3 text-center text-3xl">
+        <p className="">Room not found.</p>
+        <a
+          className="cursor-pointer underline"
+          onClick={() => navigate({ to: "/", from: "/$room" })}
+        >
+          Go Back
+        </a>
+      </div>
     );
   }
 

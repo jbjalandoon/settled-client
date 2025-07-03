@@ -23,6 +23,11 @@ const router = createRouter({
       />
     </div>
   ),
+  defaultErrorComponent: () => (
+    <div className="flex h-screen w-screen items-center justify-center text-4xl">
+      <p>Something went wrong, Please refresh the page</p>
+    </div>
+  ),
 });
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {

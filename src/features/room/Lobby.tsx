@@ -42,7 +42,7 @@ export default function Lobby() {
                 className={
                   "xs:w-16 xs:h-16 relative h-12 w-12 outline-5 outline-blue-900 sm:h-24 sm:w-24"
                 }
-                changeable={true}
+                changeable={isJoined}
                 readyIcon={false}
                 ready={false}
               />

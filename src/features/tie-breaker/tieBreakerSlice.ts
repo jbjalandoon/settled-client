@@ -67,7 +67,6 @@ export const tieBreakerSlice = createSlice({
         winner: string;
       }>,
     ) => {
-      console.log(action.payload.winner);
       state!.stats[action.payload.winner].score += 1;
 
       return state;

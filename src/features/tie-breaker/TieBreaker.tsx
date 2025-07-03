@@ -51,7 +51,6 @@ export function TieBreaker() {
       chosen: TieBreakerChoices | null,
     ) {
       dispatch(toggleLockIn({ id: userId, chosen }));
-      console.log("listened");
     }
 
     function handleAddPoints(
@@ -66,7 +65,6 @@ export function TieBreaker() {
 
     function handleDraw(chosen: { [key in string]: TieBreakerChoices }) {
       setReveal(true);
-      console.log(chosen);
       dispatch(tieBreakerReveal(chosen));
     }
 
@@ -99,7 +97,6 @@ export function TieBreaker() {
 
   function handleLockIn() {
     dispatch(toggleLockIn({ id, chosen: activeChoice }));
-    console.log("button clicked");
     socket.emit("tie-breaker-lock-in", activeChoice);
   }
 

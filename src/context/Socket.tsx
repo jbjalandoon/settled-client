@@ -19,12 +19,10 @@ export default function Socket({ children }: { children: ReactNode }) {
   useEffect(() => {
     function handleConnect() {
       //   setConnected(true);
-      console.log("Socket is connected");
     }
 
     function handleDisconnect() {
       //   setConnected(false);
-      console.log("Socket is disconnected");
     }
 
     socket.on("connect", handleConnect);

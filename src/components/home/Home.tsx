@@ -16,7 +16,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="h-full w-full py-15 text-white">
+    <div className="flex h-full w-full flex-col items-center justify-center py-15 text-white">
       <Logo svgClassName="h-auto w-50 xs:w-70 sm:w-80 md:w-90"></Logo>
       <div className="mt-3 flex w-full justify-center">
         <Menu />

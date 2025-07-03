@@ -101,7 +101,7 @@ function AvatarMenu({
     }).toDataUri();
   }, [avatarNumber]);
   return (
-    <div className="relative h-25 w-25 rounded-full border-6">
+    <div className="relative h-25 w-25 rounded-full border-6 sm:h-32 sm:w-32">
       <img src={avatar} className="select-none" draggable={false} />
       {children}
     </div>
@@ -137,7 +137,7 @@ function Play() {
   };
 
   return (
-    <div className="flex w-full flex-col items-center gap-7">
+    <div className="flex w-full flex-col items-center gap-7 sm:gap-10">
       <AvatarMenu avatarNumber={avatarNumber}>
         <button
           className="absolute -right-3 bottom-0 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-blue-700 p-1 text-3xl hover:bg-blue-600 disabled:cursor-not-allowed"
@@ -149,7 +149,7 @@ function Play() {
       </AvatarMenu>
       <input
         type="text"
-        className="w-full max-w-[18ch] rounded-xl border-4 border-slate-400 bg-gray-700/80 px-2 py-1 text-lg text-slate-300 outline-none focus:border-slate-100 focus:bg-slate-700/30 focus:text-slate-200"
+        className="w-full max-w-[18ch] rounded-xl border-4 border-slate-400 bg-gray-700/80 px-2 py-1 text-lg text-slate-300 outline-none focus:border-slate-100 focus:bg-slate-700/30 focus:text-slate-200 sm:max-w-[32ch]"
         placeholder="YourCoolNameHere231"
         onChange={handleChangeNickname}
       />
