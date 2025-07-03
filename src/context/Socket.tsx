@@ -9,8 +9,8 @@ export default function Socket({ children }: { children: ReactNode }) {
     io(apiUrl + "game", {
       autoConnect: false,
       withCredentials: true,
-      timeout: 2000,
-      transports: ["websocket", "polling"],
+      timeout: 3000,
+      transports: ["websocket"],
       reconnection: true,
       upgrade: true,
     }),
