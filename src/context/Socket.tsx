@@ -36,13 +36,15 @@ export default function Socket({ children }: { children: ReactNode }) {
       socket.off("disconnect", handleDisconnect);
       socket.disconnect();
     };
-  }, [socket]);
+  }, []);
 
   const resetConnection = useCallback(() => {
     if (!socket) return;
     if (socket.connected) {
+      console.log("dc from function");
       socket.disconnect();
     }
+    console.log("connect from function");
     socket.connect();
   }, [socket]);
 
