@@ -30,7 +30,6 @@ export default function Socket({ children }: { children: ReactNode }) {
     socket.on("disconnect", handleDisconnect);
     socket.connect();
     return () => {
-      if (socket.connected) socket.disconnect();
       socket.off("connect", handleConnect);
       socket.off("disconnect", handleDisconnect);
       socket.disconnect();
@@ -43,8 +42,7 @@ export default function Socket({ children }: { children: ReactNode }) {
       socket.disconnect();
     }
     socket.connect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [socket]);
 
   const contextValue = useMemo(
     () => ({
