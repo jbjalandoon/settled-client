@@ -7,11 +7,12 @@ export default function Socket({ children }: { children: ReactNode }) {
   const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000/game";
   const [socket] = useState<SocketType>(
     io(apiUrl + "game", {
-      autoConnect: true,
+      autoConnect: false,
       withCredentials: true,
       timeout: 2000,
       transports: ["websocket", "polling"],
       reconnection: true,
+      upgrade: true,
     }),
   );
   //   const [connected, setConnected] = useState(false);
@@ -32,6 +33,7 @@ export default function Socket({ children }: { children: ReactNode }) {
       if (socket.connected) socket.disconnect();
       socket.off("connect", handleConnect);
       socket.off("disconnect", handleDisconnect);
+      socket.disconnect();
     };
   }, [socket]);
 

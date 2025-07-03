@@ -26,7 +26,6 @@ export default function Room() {
   const { socket, resetSocket } = useSocket();
   const navigate = useNavigate({ from: "/$room" });
   const dispatch = useAppDispatch();
-  resetSocket();
 
   useEffect(() => {
     socket.emit("join-room", room);
@@ -34,6 +33,7 @@ export default function Room() {
   }, [room]);
 
   useEffect(() => {
+    resetSocket();
     function handleNextPhase(phase: number) {
       dispatch(nextPhaseUpdated(phase));
     }
