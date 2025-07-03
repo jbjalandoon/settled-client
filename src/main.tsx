@@ -7,7 +7,6 @@ import { ClipLoader } from "react-spinners";
 import { routeTree } from "./routeTree.gen";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
-import Socket from "./context/Socket";
 
 // Create a new router instance
 const router = createRouter({
@@ -42,9 +41,7 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <Provider store={store}>
-        <Socket>
-          <RouterProvider router={router} />
-        </Socket>
+        <RouterProvider router={router} />
       </Provider>
     </StrictMode>,
   );

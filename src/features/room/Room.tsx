@@ -23,7 +23,7 @@ import {
 export default function Room() {
   const loader = useLoaderData({ from: "/$room" });
   const { room } = useParams({ from: "/$room" });
-  const { socket, resetSocket } = useSocket();
+  const { socket } = useSocket();
   const navigate = useNavigate({ from: "/$room" });
   const dispatch = useAppDispatch();
 
@@ -33,7 +33,7 @@ export default function Room() {
   }, [room]);
 
   useEffect(() => {
-    resetSocket();
+    // resetSocket();
     function handleNextPhase(phase: number) {
       dispatch(nextPhaseUpdated(phase));
     }

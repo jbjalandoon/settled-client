@@ -3,6 +3,7 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import Navbar from "../components/navbar/Navbar";
 import { ToastContainer } from "react-toastify";
 import { getGuestToken } from "../api/auth";
+import Socket from "../context/Socket";
 
 export const Route = createRootRoute({
   beforeLoad: async () => {
@@ -13,13 +14,15 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <div className="wrapper">
-      <Navbar />
-      <ToastContainer />
-      <div className="container mx-auto flex h-screen items-center justify-center">
-        <Outlet />
+    <Socket>
+      <div className="wrapper">
+        <Navbar />
+        <ToastContainer />
+        <div className="container mx-auto flex h-screen items-center justify-center">
+          <Outlet />
+        </div>
+        <TanStackRouterDevtools />
       </div>
-      <TanStackRouterDevtools />
-    </div>
+    </Socket>
   );
 }

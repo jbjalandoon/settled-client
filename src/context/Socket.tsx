@@ -2,9 +2,11 @@ import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { io } from "socket.io-client";
 import type { Socket as SocketType } from "socket.io-client";
 import { socketContext } from "../hooks/useSocket";
+import { useLocation } from "@tanstack/react-router";
 
 export default function Socket({ children }: { children: ReactNode }) {
   const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000/game";
+  const path = useLocation({ select: (location) => location.pathname });
   const [socket] = useState<SocketType>(
     io(apiUrl + "game", {
       autoConnect: false,
@@ -16,6 +18,16 @@ export default function Socket({ children }: { children: ReactNode }) {
     }),
   );
   //   const [connected, setConnected] = useState(false);
+
+  useEffect(() => {
+    if (!socket.connected) {
+      socket.connect();
+    }
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [path, socket]);
 
   useEffect(() => {
     function handleConnect() {
@@ -30,21 +42,19 @@ export default function Socket({ children }: { children: ReactNode }) {
 
     socket.on("connect", handleConnect);
     socket.on("disconnect", handleDisconnect);
-    socket.connect();
+    // socket.connect();
     return () => {
       socket.off("connect", handleConnect);
       socket.off("disconnect", handleDisconnect);
-      socket.disconnect();
+      // socket.disconnect();
     };
   }, []);
 
   const resetConnection = useCallback(() => {
     if (!socket) return;
     if (socket.connected) {
-      console.log("dc from function");
       socket.disconnect();
     }
-    console.log("connect from function");
     socket.connect();
   }, [socket]);
 
