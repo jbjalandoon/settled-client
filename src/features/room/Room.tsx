@@ -29,11 +29,13 @@ export default function Room() {
 
   useEffect(() => {
     socket.emit("join-room", room);
-    resetSocket();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [room]);
 
   useEffect(() => {
+    // workaround?
+    location.reload();
+    resetSocket();
     function handleNextPhase(phase: number) {
       dispatch(nextPhaseUpdated(phase));
     }

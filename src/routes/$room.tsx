@@ -32,7 +32,6 @@ export const Route = createFileRoute("/$room")({
     try {
       const { data, status } = await getRoom(params.room);
 
-      console.log(status);
       if (status === 500) {
         return null;
       }
