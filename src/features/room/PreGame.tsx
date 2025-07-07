@@ -26,7 +26,7 @@ const GAME_DESCRIPTION: GameDescription = {
   memory: {
     title: "Memory Sequence",
     description:
-      "Remember and click the square in exactly the order they appeared. Every level has 1 minute timer. One mistake will cost you the game. First one to finish 15 levels win. ",
+      "Remember and click the square. First one to finish 15 levels win. If the timer runs out, the player who got the most correct tiles will win.",
   },
   connect: {
     title: "Connect Four",
